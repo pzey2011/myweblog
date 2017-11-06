@@ -47,4 +47,18 @@ class PostDetailView(DetailView):
         context['tag_count'] = Tag.objects.all().count()
         return context
 
+class TagPostListView(DetailView):
+    model = Tag
+    template_name = 'posts/index.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(TagPostListView, self).get_context_data(**kwargs)
+        posts=[]
+        for post in Post.objects.all():
+            if post.tags.filter(name__exact=kwargs['object']).exists():
+                posts.append(post)
+
+        context['post_list']=posts
+        context['tag_list'] = Tag.objects.all()
+        context['half_tag_count'] = ceil(Tag.objects.all().count()/2)
+        return context
