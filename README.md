@@ -1,9 +1,9 @@
 # myweblog
-Quick start:\n
-$ git clone https://github.com/pzey2011/myweblog
-$ cd myweblog 
-$ export VENV=~/env
-$ python3 -m venv $VENV
-$ source $VENV/bin/activate
-$ python manage.py migrate
+Quick start: <br />
+$ git clone https://github.com/pzey2011/myweblog <br />
+$ cd myweblog  <br />
+$ export VENV=~/env <br />
+$ python3 -m venv $VENV <br />
+$ source $VENV/bin/activate <br />
+$ python manage.py migrate <br />
 $ python manage.py runserver
