@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+{% block tag_contents1 %}
+    {% for tag in tag_list %}
+        {% if forloop.counter <= half_tag_count %}
+            <li>
+              <a href="#">{{ tag.name }}</a>
+            </li>
+        {% endif %}
+    {% empty %}
+        <h2>Sorry, no tags yet</h2>
+    {% endfor %}
+{% endblock %}
+
+{% block tag_contents2 %}
+    {% for tag in tag_list %}
+        {% if forloop.counter > half_tag_count %}
+            <li>
+              <a href="#">{{ tag.name }}</a>
+            </li>
+        {% endif %}
+    {% empty %}
+        <h2>Sorry, no tags yet</h2>
+    {% endfor %}
+{% endblock %}
+
+
+{% block content %}
+    <!-- Blog Entries Column -->
+    <div class="col-md-8">
+        <h1 class="my-4">This is my personal blog</h1>
+        {% for post in post_list %}
+
+             <!-- Blog Post -->
+            <div class="card mb-4">
+                <img class="card-img-top" src="{{ post.image.url }}" alt="Card image cap">
+                <div class="card-body">
+                    <h2 class="card-title">{{ post.title }}</h2>
+                    <p class="card-text">{{ post.description }}</p>
+                    <a href="post/{{ post.id }}" class="btn btn-primary">Read More &rarr;</a>
+                </div>
+                <div class="card-footer text-muted">
+                    Posted on {{ post.created_at }} by
+                    <a href="https://www.linkedin.com/in/peyman-zeynali-017b055a/">Peyman</a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="card mb-4">
+                <h2>Sorry, no posts yet</h2>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
