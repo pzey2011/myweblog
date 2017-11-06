@@ -9,6 +9,13 @@ from django.views.generic import ListView,CreateView,DetailView
 from .models import Post,Tag,Comment
 from .response import ApiResponse
 
+def get_tag_posts(kwargs):
+    posts = []
+    for post in Post.objects.all():
+        if post.tags.filter(name__exact=kwargs['object']).exists():
+            posts.append(post)
+
+    return posts
 # Create your views here.
 class ApiPostCreateView(generics.CreateAPIView):
 
@@ -43,8 +50,9 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
+        context['post_list'] = get_tag_posts(kwargs)
         context['tag_list'] = Tag.objects.all()
-        context['tag_count'] = Tag.objects.all().count()
+        context['half_tag_count'] = ceil(Tag.objects.all().count()/2)
         return context
 
 class TagPostListView(DetailView):
@@ -53,12 +61,7 @@ class TagPostListView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(TagPostListView, self).get_context_data(**kwargs)
-        posts=[]
-        for post in Post.objects.all():
-            if post.tags.filter(name__exact=kwargs['object']).exists():
-                posts.append(post)
-
-        context['post_list']=posts
+        context['post_list']=get_tag_posts(kwargs)
         context['tag_list'] = Tag.objects.all()
         context['half_tag_count'] = ceil(Tag.objects.all().count()/2)
         return context
