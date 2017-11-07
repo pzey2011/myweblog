@@ -5,7 +5,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" >
       <!-- my CSS -->
@@ -49,42 +50,49 @@
         <div class="col-md-4">
 
           <!-- Search Widget -->
-          <div class="card my-4">
-            <h5 class="card-header">Search</h5>
-            <div class="card-body">
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                  <button class="btn btn-secondary" type="button">Go!</button>
-                </span>
-              </div>
+            <div class="card white">
+                <div class="card-content black-text"><span class="card-title">Search</span>
+                    <div class="card-action">
+                        <div class="row">
+                            <input type="search" class="search" placeholder="Search for..." />
+                            <a href="#" type="search" class="btn waves-effect waves-light">Go</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+
 
           <!-- Categories Widget -->
-          <div class="card my-4">
-            <h5 class="card-header">Tags</h5>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    {% block tag_contents1 %}{% endblock %}
-                  </ul>
+          <div class="card white">
+            <div class="card-content black-text">
+                <span class="card-title">Tags</span>
+                <div class="card-action">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <ul class="list-unstyled mb-0">
+                        {% block tag_contents1 %}{% endblock %}
+                      </ul>
+                    </div>
+                    <div class="col-lg-6">
+                      <ul class="list-unstyled mb-0">
+                        {% block tag_contents2 %}{% endblock %}
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    {% block tag_contents2 %}{% endblock %}
-                  </ul>
-                </div>
-              </div>
             </div>
           </div>
 
           <!-- Side Widget -->
-          <div class="card my-4">
-            <h5 class="card-header">Side Widget</h5>
-            <div class="card-body">
-              You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+          <div class="card white">
+            <div class="card-content black-text">
+              <span class="card-title">Join Us</span>
+              <p>Make your own blog!</p>
+            </div>
+            <div class="card-action center-block">
+                <a href="#" class="btn waves-effect waves-light" type="submit" name="action">
+                      Join
+                </a>
             </div>
           </div>
 
@@ -97,6 +105,10 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
   </body>
