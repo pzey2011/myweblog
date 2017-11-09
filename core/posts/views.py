@@ -3,8 +3,7 @@ from math import ceil
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import PostCreateSerializer, PostItemSerializer,TagCreateSerializer,TagSerializer
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from .serializers import PostCreateSerializer
 from django.views.generic import ListView,CreateView,DetailView
 from .models import Post,Tag,Comment
 from .response import ApiResponse
@@ -38,6 +37,7 @@ class PostListView(ListView):
     model = Post
     template_name = 'posts/index.html'
 
+
     def get_context_data(self, **kwargs):
         context = super(PostListView, self).get_context_data(**kwargs)
         context['tag_list'] = Tag.objects.all()
@@ -65,3 +65,5 @@ class TagPostListView(DetailView):
         context['tag_list'] = Tag.objects.all()
         context['half_tag_count'] = ceil(Tag.objects.all().count()/2)
         return context
+
+

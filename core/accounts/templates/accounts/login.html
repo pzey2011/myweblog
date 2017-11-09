@@ -1,0 +1,62 @@
+{% extends 'accounts/form_layout.html' %}
+{% block content %}
+
+    <div class="container login-container white z-depth-2">
+
+      <form class="col s12" action="/accounts/login/" method="POST">{% csrf_token %}
+        <div class="form-container">
+            <div class="row">
+              <div class="input-field col s12 center">
+                <p class="center login-form-text">Sign In</p>
+              </div>
+            </div>
+            {% if form.non_field_errors %}
+                <ul class='form-errors'>
+                    {% for error in form.non_field_errors %}
+                        <li class=" left-alert" ><blockquote class="alert-danger">{{ error }}</blockquote></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+                <div class="row">
+                  <div class="input-field col s12">
+
+                        <label for="{{ form.username.id_for_label }}">Username:</label>
+
+                    {{ form.username }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <label for="{{ form.password.id_for_label }}">Password:</label>
+                    {{ form.password }}
+                  </div>
+                </div>
+
+
+            <div class="row">
+              <div class="input-field col s12 m12 l12  login-text">
+                  <input type="checkbox" id="remember-me">
+                  <label for="remember-me">Remember me</label>
+              </div>
+            </div>
+            <br>
+            <center>
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn waves-effect waves-light col-sm-12" type="submit">Login</button>
+              </div>
+            </div>
+            </center>
+            <div class="row">
+              <div class="input-field col s6 m6 l6">
+                <p class="margin medium-small"><a href="page-register.html">Register Now!</a></p>
+              </div>
+              <div class="input-field col s6 m6 l6">
+                  <p class="margin right-align medium-small"><a href="page-forgot-password.html">Forgot password ?</a></p>
+              </div>
+            </div>
+        </div>
+      </form>
+
+    </div>
+{% endblock %}

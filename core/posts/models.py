@@ -15,9 +15,10 @@ class Tag(models.Model):
         return self.name
 
 class Post(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_("Title"), blank=True, null=True)
-    description = models.TextField(verbose_name=_("Description"), blank=True, null=True)
-    text = models.TextField(verbose_name=_("Text"), blank=True, null=True)
+    title = models.CharField(max_length=100, verbose_name=_("Title"))
+    description = models.TextField(verbose_name=_("Description"))
+    author = models.ForeignKey(User, related_name='posts', verbose_name=_("Author"), blank=True, null=True)
+    text = models.TextField(verbose_name=_("Text"))
     image =models.ImageField(upload_to='posts', verbose_name=_(u"Post Image"), blank=True, null=True)
     tags = models.ManyToManyField(Tag, related_name='posts', verbose_name=_("Tag"), blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
@@ -33,9 +34,9 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    author = models.ForeignKey(User, related_name='user_comments', verbose_name=_("User"))
+    author = models.ForeignKey(User, related_name='comments', verbose_name=_("Author"))
     text = models.TextField(verbose_name=_("Text"))
-    post = models.ForeignKey(Post, related_name='comments', verbose_name=_("Post"), blank=True)
+    post = models.ForeignKey(Post, related_name='comments', verbose_name=_("Post"))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated at"))
 

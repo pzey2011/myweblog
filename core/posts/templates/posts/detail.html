@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+{% extends 'posts/layout.html' %}
 {% block tag_contents1 %}
     {% for tag in tag_list %}
         {% if forloop.counter <= half_tag_count %}
@@ -79,4 +79,19 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block join %}
+    <!-- Side Widget -->
+          <div class="card white">
+            <div class="card-content black-text">
+              <span class="card-title">Join Us</span>
+              <p>Make your own blog!</p>
+            </div>
+            <div class="card-action center-block">
+                <a href="/accounts/login/" class="btn waves-effect waves-light" type="submit" name="action">
+                      Join
+                </a>
+            </div>
+          </div>
 {% endblock %}
