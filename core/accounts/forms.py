@@ -20,9 +20,6 @@ class LoginForm(forms.Form):
             self.cleaned_data['user'] = user
         return self.cleaned_data
 
-    def login(self, cleaned_data):
-        user = cleaned_data.get('user')
-        return user
 
 class RegisterForm(forms.Form):
     username = forms.CharField(label='Username',
@@ -49,8 +46,6 @@ class RegisterForm(forms.Form):
     def save(self,cleaned_data):
         self.password = self.cleaned_data.pop('password')
         self.cleaned_data.pop('password_confirm')
-        #todo erase print
-        print('user_data: ',cleaned_data)
 
         profile = Profile.objects.create(**cleaned_data)
         profile.set_password(self.password)

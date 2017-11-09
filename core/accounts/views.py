@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from math import ceil
 from django.views.generic import ListView, CreateView, DetailView
 from django.utils.translation import ugettext_lazy as _
@@ -24,11 +24,12 @@ class UserRegisterView(CreateView):
             # todo erase print
             print('form.user_data: ', form.cleaned_data)
 
-            user = form.save(form.cleaned_data)
+            profile = form.save(form.cleaned_data)
+            return redirect('index')
         else:
             return render(request, self.template_name, {'form': form})
 
-        return UserPostListView.as_view()(self,user)
+
 
 class UserLoginView(CreateView):
     model = Profile
@@ -46,12 +47,10 @@ class UserLoginView(CreateView):
         # todo erase print
         print(form)
         if form.is_valid():
-
-            user = form.login(form.cleaned_data)
+            return redirect('index')
         else:
             return render(request, self.template_name, {'form': form})
 
-        return UserPostListView.as_view()(self,user)
 
 
 # json_response=json.loads(response.text)
@@ -62,10 +61,10 @@ class UserPostListView(ListView):
     model = Post
     template_name = 'accounts/account_index.html'
 
-    def get_queryset(self,user):
-        queryset = Post.objects.filter(author=user)
+    def get_queryset(self):
+        queryset = Post.objects.filter(author=self.request.user)
 
-    def get_context_data(self,user, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super(UserPostListView, self).get_context_data(**kwargs)
         context['tag_list'] = Tag.objects.filter(posts__author=self.request.user)
         context['half_tag_count'] = ceil(Tag.objects.all().count() / 2)
