@@ -17,22 +17,17 @@ class Account(User):
 
     gender = models.CharField(max_length=10, choices=GENDER, verbose_name=_(u'Gender'),
                               help_text=_("Choices: ['male', 'female']"), blank=True, null=True)
-    avatar = models.ImageField(upload_to='avatars', verbose_name=_(u"Avatar"),default='/media/user-default.jpg', blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatars', verbose_name=_(u"Avatar"),default=settings.MEDIA_ROOT + '/user-default.jpg', blank=True, null=True)
 
     class Meta:
         abstract = True
 
-    def __str__(self):
-        return self.get_full_name()
-    def avatar_url(self):
-        if self.avatar:
-            filename = settings.API_URL + self.avatar.url[1:]
-            if os.path.isfile(self.avatar.path):
-                return filename
 
-        return None
 
 class Profile(Account):
     class Meta:
         verbose_name = _("Profile")
         verbose_name_plural = _("Profiles")
+    def __str__(self):
+        return self.get_username()
+

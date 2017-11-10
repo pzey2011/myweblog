@@ -69,6 +69,8 @@ TEMPLATES = [
     },
 ]
 
+API_URL = "http://127.0.0.1/"
+
 WSGI_APPLICATION = 'myweblog.wsgi.application'
 
 
@@ -129,3 +131,4 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
+LOGIN_REDIRECT_URL = '/accounts/index'

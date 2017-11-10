@@ -21,6 +21,7 @@ class LoginForm(forms.Form):
         return self.cleaned_data
 
 
+
 class RegisterForm(forms.Form):
     username = forms.CharField(label='Username',
                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),

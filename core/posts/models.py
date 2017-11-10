@@ -15,6 +15,8 @@ class Tag(models.Model):
         return self.name
 
 class Post(models.Model):
+    PRIVACY = (('public', _('Public')), ('private', _('Private')))
+
     title = models.CharField(max_length=100, verbose_name=_("Title"))
     description = models.TextField(verbose_name=_("Description"))
     author = models.ForeignKey(User, related_name='posts', verbose_name=_("Author"), blank=True, null=True)
@@ -23,6 +25,8 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag, related_name='posts', verbose_name=_("Tag"), blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated at"))
+    privacy= models.CharField(max_length=10, choices=PRIVACY, verbose_name=_(u'Privacy'),
+                              help_text=_("Choices: ['public', 'private']"), blank=True, null=True)
 
     class Meta:
         verbose_name = _("Post")

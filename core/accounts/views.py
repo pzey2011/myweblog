@@ -2,8 +2,11 @@ from django.shortcuts import render,redirect
 from math import ceil
 from django.views.generic import ListView, CreateView, DetailView
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import login
+from rest_framework.permissions import IsAuthenticated
 
-from .models import Profile
+
+from .models import Profile,get_group
 from .forms import LoginForm,RegisterForm
 from core.posts.models import Post, Tag, Comment
 
@@ -13,7 +16,8 @@ class UserRegisterView(CreateView):
     form_class = RegisterForm
 
     def get(self, request, *args, **kwargs):
-
+        if request.user.is_authenticated():
+            return redirect('index')
         form = self.form_class()
         return render(request, self.template_name, {'form': form})
 
@@ -23,21 +27,22 @@ class UserRegisterView(CreateView):
         if form.is_valid():
             # todo erase print
             print('form.user_data: ', form.cleaned_data)
-
-            profile = form.save(form.cleaned_data)
+            user=form.save(form.cleaned_data)
+            login(request,user)
             return redirect('index')
         else:
             return render(request, self.template_name, {'form': form})
 
 
 
-class UserLoginView(CreateView):
+class UserLoginView(ListView):
     model = Profile
     template_name = 'accounts/login.html'
     form_class = LoginForm
 
     def get(self, request, *args, **kwargs):
-
+        if request.user.is_authenticated():
+            return redirect('index')
         form = self.form_class()
         return render(request, self.template_name, {'form': form})
 
@@ -47,9 +52,11 @@ class UserLoginView(CreateView):
         # todo erase print
         print(form)
         if form.is_valid():
+            login(request, form.cleaned_data.get('user'))
             return redirect('index')
         else:
             return render(request, self.template_name, {'form': form})
+
 
 
 
@@ -60,19 +67,27 @@ class UserLoginView(CreateView):
 class UserPostListView(ListView):
     model = Post
     template_name = 'accounts/account_index.html'
+    permission_class=[IsAuthenticated,]
 
     def get_queryset(self):
+        # todo print erase
+        print('user: ', self.request.user)
         queryset = Post.objects.filter(author=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super(UserPostListView, self).get_context_data(**kwargs)
+        #todo print erase
+        print('user: ',self.request.user)
+        profile = Profile.objects.get(id=self.request.user.id)
+        context['avatar_url'] = profile.avatar.url
         context['tag_list'] = Tag.objects.filter(posts__author=self.request.user)
         context['half_tag_count'] = ceil(Tag.objects.all().count() / 2)
         return context
 
 class UserPostCreateView(CreateView):
     model = Post
-    template_name = 'accounts/create_post.html'
+    template_name = 'accounts/index.html'
+    permission_class = [IsAuthenticated, ]
 '''
     def get_queryset(self):
         queryset = Post.objects.filter(author=self.request.user)

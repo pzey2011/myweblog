@@ -40,6 +40,7 @@ class PostListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(PostListView, self).get_context_data(**kwargs)
+        context['user']=self.request.user
         context['tag_list'] = Tag.objects.all()
         context['half_tag_count'] = ceil(Tag.objects.all().count()/2)
         return context
@@ -50,7 +51,7 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
-        context['post_list'] = get_tag_posts(kwargs)
+        context['user'] = self.request.user
         context['tag_list'] = Tag.objects.all()
         context['half_tag_count'] = ceil(Tag.objects.all().count()/2)
         return context
@@ -61,6 +62,7 @@ class TagPostListView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(TagPostListView, self).get_context_data(**kwargs)
+        context['user'] = self.request.user
         context['post_list']=get_tag_posts(kwargs)
         context['tag_list'] = Tag.objects.all()
         context['half_tag_count'] = ceil(Tag.objects.all().count()/2)

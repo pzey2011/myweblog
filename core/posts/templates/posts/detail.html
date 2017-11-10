@@ -1,4 +1,19 @@
 {% extends 'posts/layout.html' %}
+{% block header %}
+    {% if user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="/accounts/logout/">Logout</a>
+        </li>
+    {% else %}
+        <li class="nav-item">
+            <a class="nav-link" href="/accounts/login/">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/accounts/register/">Register</a>
+        </li>
+    {% endif %}
+{% endblock %}
+
 {% block tag_contents1 %}
     {% for tag in tag_list %}
         {% if forloop.counter <= half_tag_count %}
@@ -18,8 +33,7 @@
         {% if forloop.counter > half_tag_count %}
             <li>
                 <div class="chip">
-                    <a class="blue-text" href="/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
-                </div>
+                <a class="blue-text" href="/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
             </li>
         {% endif %}
     {% empty %}

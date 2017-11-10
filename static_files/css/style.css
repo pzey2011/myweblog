@@ -22,3 +22,7 @@ body {
     width: 400px;
     height: 700px;
 }
+.section{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
