@@ -3,7 +3,9 @@
     {% for tag in tag_list %}
         {% if forloop.counter <= half_tag_count %}
             <li>
-              <a class="blue-text" href="/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
+                <div class="chip">
+                    <a class="blue-text" href="/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
+                </div>
             </li>
         {% endif %}
     {% empty %}
@@ -15,7 +17,9 @@
     {% for tag in tag_list %}
         {% if forloop.counter > half_tag_count %}
             <li>
-              <a class="blue-text" href="/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
+                <div class="chip">
+                    <a class="blue-text" href="/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
+                </div>
             </li>
         {% endif %}
     {% empty %}
