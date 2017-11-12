@@ -1,8 +1,7 @@
 from django.conf.urls import url
-from core.posts.views import PostListView,ApiPostCreateView,PostDetailView,TagPostListView
+from core.posts.views import PostListView,PostDetailView,TagPostListView
 
 urlpatterns = [
-    url(r'^api/posts/$', ApiPostCreateView.as_view()),
     url(r'^$', PostListView.as_view()),
     url(r'^posts/(?P<pk>\d+)/$', PostDetailView.as_view(), name='post-detail'),
     url(r'^tags/(?P<pk>\d+)/posts/$', TagPostListView.as_view(), name='tag-posts')
