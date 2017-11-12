@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate
 from .models import Profile
-
+from core.posts.models import Post,Comment,Tag
 class LoginForm(forms.Form):
     username = forms.CharField(label='Username',
                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),
@@ -49,6 +49,21 @@ class RegisterForm(forms.Form):
         self.cleaned_data.pop('password_confirm')
 
         profile = Profile.objects.create(**cleaned_data)
+        profile.set_password(self.password)
+        profile.save()
+        return profile
+
+class PostCreateForm(forms.Form):
+    PRIVACY_CHOICES = (('1','Private','lock'), ('2','Public','globe'))
+    title=forms.CharField(widget=forms.TextInput)
+    intro = forms.CharField(widget=forms.TextInput)
+    text = forms.CharField(widget=forms.Textarea(attrs={'row':"2" , 'class':'materialize-textarea'}))
+    privacy = forms.ChoiceField(
+        choices=PRIVACY_CHOICES,
+    )
+    def save(self,cleaned_data):
+        self.text = self.cleaned_data.pop('text')
+        profile = Post.objects.create(**cleaned_data)
         profile.set_password(self.password)
         profile.save()
         return profile

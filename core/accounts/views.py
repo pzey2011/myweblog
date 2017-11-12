@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 
 
 from .models import Profile,get_group
-from .forms import LoginForm,RegisterForm
+from .forms import LoginForm,RegisterForm,PostCreateForm
 from core.posts.models import Post, Tag, Comment
 
 class UserRegisterView(CreateView):
@@ -25,8 +25,6 @@ class UserRegisterView(CreateView):
 
         form = self.form_class(request.POST)
         if form.is_valid():
-            # todo erase print
-            print('form.user_data: ', form.cleaned_data)
             user=form.save(form.cleaned_data)
             login(request,user)
             return redirect('index')
@@ -49,8 +47,6 @@ class UserLoginView(ListView):
     def post(self, request):
 
         form = self.form_class(request.POST)
-        # todo erase print
-        print(form)
         if form.is_valid():
             login(request, form.cleaned_data.get('user'))
             return redirect('index')
@@ -67,22 +63,26 @@ class UserLoginView(ListView):
 class UserPostListView(ListView):
     model = Post
     template_name = 'accounts/account_index.html'
+    form_class = PostCreateForm
     permission_class=[IsAuthenticated,]
 
     def get_queryset(self):
-        # todo print erase
-        print('user: ', self.request.user)
         queryset = Post.objects.filter(author=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super(UserPostListView, self).get_context_data(**kwargs)
-        #todo print erase
-        print('user: ',self.request.user)
+
         profile = Profile.objects.get(id=self.request.user.id)
+        #todo erase print
+        print("url: ",profile.avatar.url)
         context['avatar_url'] = profile.avatar.url
         context['tag_list'] = Tag.objects.filter(posts__author=self.request.user)
         context['half_tag_count'] = ceil(Tag.objects.all().count() / 2)
         return context
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+
+        return render(request, self.template_name, {'form': form})
 
 class UserPostCreateView(CreateView):
     model = Post

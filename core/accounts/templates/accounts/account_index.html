@@ -1,25 +1,29 @@
 {% extends 'accounts/account_layout.html' %}
-{% block tag_contents1 %}
+
+
+{% block right_tags %}
     {% for tag in tag_list %}
         {% if forloop.counter <= half_tag_count %}
             <li>
-                <a class="blue-text" href="/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
+                <div class="chip">
+                    <a href="/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
+                </div>
             </li>
         {% endif %}
     {% empty %}
-        <h2>Sorry, no tags yet</h2>
+        <p>Sorry, no tags yet</p>
     {% endfor %}
 {% endblock %}
 
-{% block tag_contents2 %}
+{% block left_tags %}
     {% for tag in tag_list %}
         {% if forloop.counter > half_tag_count %}
             <li>
-                <a class="blue-text" href="/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
+                <div class="chip">
+                    <a href="/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
+                </div>
             </li>
         {% endif %}
-    {% empty %}
-        <h2>Sorry, no tags yet</h2>
     {% endfor %}
 {% endblock %}
 
@@ -43,31 +47,46 @@
                             <img src={{ avatar_url }} alt="" class="circle responsive-img valign profile-image-post">
                         </div>
                         <div class="input-field col-sm-10">
-                            <textarea id="textarea" row="2" class="materialize-textarea"></textarea>
-                            <label for="textarea" class="">What's on your mind?</label>
+                            {{ form.title }}
+                            <label for={{ form.title.id_for_label }} >Subject</label>
+                        </div>
+                        <div class="input-field col-sm-10">
+                            {{ form.intro }}
+                            <label for={{ form.intro.id_for_label }} >An introduction sentence for your text...</label>
+                        </div>
+                        <div class="input-field col-sm-10">
+                            {{ form.text }}
+                            <label for={{ form.text.id_for_label }} >Text...</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col s12 m6 share-icons">
-                            <a href="#"><i class="mdi-image-camera-alt"></i></a>
+                            <!--<a href="#"><i class="mdi-image-camera-alt"></i></a>
                             <a href="#"><i class="mdi-action-account-circle"></i></a>
                             <a href="#"><i class="mdi-hardware-keyboard-alt"></i></a>
-                            <a href="#"><i class="mdi-communication-location-on"></i></a>
+                            <a href="#"><i class="mdi-communication-location-on"></i></a>-->
                         </div>
                         <div class="col s12 m6 right-align">
                             <!-- Dropdown Trigger -->
-                            <a class="dropdown-button btn" href="#" data-activates="profliePost"><i
-                                    class="mdi-action-language"></i> Public</a>
-                            <ul class="dropdown-content">
-                                <li><a href="#!"><i class="mdi-action-language"></i> Public</a></li>
-                                <li><a href="#!"><i class="mdi-action-face-unlock"></i> Friends</a></li>
-                                <li><a href="#!"><i class="mdi-action-lock-outline"></i> Only Me</a></li>
-                            </ul>
+                               <!-- <select name="privacy" class="form-control">
+                                {% for choice in form.privacy.field.choices %}
+                                    {% if forloop.counter == 1 %}
+                                        <option value="{{forloop.counter}}" selected>{{ choice.1}}</option>
+                                    {% else %}
+                                        <option value="{{forloop.counter}}">{{ choice.1}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                </select>-->
 
-                            <!-- Dropdown Structure -->
+                                <a name="privacy" class="dropdown-toggle waves-effect waves-light btn" data-toggle="dropdown" href="#"><i class="fa fa-lock"></i> Private</a>
 
+                                <ul class="dropdown-menu" role="menu">
+                                    {% for choice in form.privacy.field.choices %}
+                                        <li><a href="#!"><i class="fa fa-{{ choice.2 }}"></i> {{ choice.1}}</a></li>
+                                    {% endfor %}
+                                </ul>
 
-                            <button class="waves-effect waves-light btn"><i class="mdi-maps-rate-review left"></i>Post</button>
+                            <button class="waves-effect waves-light btn"><i class="fa fa-send left"></i>Post</button>
                         </div>
                     </div>
                 </form>
@@ -126,6 +145,15 @@
                                 <button class="btn waves-effect waves-light" type="submit" name="action">Submit
                                     <i class="mdi-content-send right"></i>
                                 </button>
+                            </form>
+                            <form action="#">{% csrf_token %}
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <textarea class="mdl-textfield__input" type="text" rows= "3" id="sample5" ></textarea>
+                                    <label class="mdl-textfield__label" for="sample5">Comments...</label>
+                                    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                                        <span class="glyphicon glyphicon-send pull-right"></span>
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>

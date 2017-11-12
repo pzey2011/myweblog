@@ -33,11 +33,10 @@
         {% if forloop.counter > half_tag_count %}
             <li>
                 <div class="chip">
-                <a class="blue-text" href="/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
+                    <a class="blue-text" href="/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
+                </div>
             </li>
         {% endif %}
-    {% empty %}
-        <h2>Sorry, no tags yet</h2>
     {% endfor %}
 {% endblock %}
 

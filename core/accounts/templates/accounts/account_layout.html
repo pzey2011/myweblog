@@ -56,10 +56,17 @@
                     <!-- Profile About  -->
                     <div class="card light-blue">
                         <div class="card-content white-text">
-                            <span class="card-title">About Me!</span>
-                            <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I
-                                require little markup to use effectively.</p>
-                        </div>
+                            <span class="card-title">Tags:</span>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    {% block right_tags %}
+                                    {% endblock %}
+                                </div>
+                                <div class="col-lg-6">
+                                    {% block left_tags %}
+                                    {% endblock %}
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -76,5 +83,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script src="{% static "js/script.js" %}"></script>
 </body>
-</html>t
+</html>
