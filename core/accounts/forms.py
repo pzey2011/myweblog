@@ -54,16 +54,14 @@ class RegisterForm(forms.Form):
         return profile
 
 class PostCreateForm(forms.Form):
-    PRIVACY_CHOICES = (('1','Private','lock'), ('2','Public','globe'))
+    PRIVACY_CHOICES = (('private','Private'), ('public','Public'))
     title=forms.CharField(widget=forms.TextInput)
-    intro = forms.CharField(widget=forms.TextInput)
+    description = forms.CharField(widget=forms.TextInput)
     text = forms.CharField(widget=forms.Textarea(attrs={'row':"2" , 'class':'materialize-textarea'}))
     privacy = forms.ChoiceField(
+        widget=forms.Select(attrs={'class':'form-control'}),
         choices=PRIVACY_CHOICES,
     )
-    def save(self,cleaned_data):
-        self.text = self.cleaned_data.pop('text')
-        profile = Post.objects.create(**cleaned_data)
-        profile.set_password(self.password)
-        profile.save()
-        return profile
+    def clean(self):
+        #todo erase print
+        print('privacy: ', self.cleaned_data.get('privacy'))
