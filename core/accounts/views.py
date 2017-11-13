@@ -96,12 +96,10 @@ class UserPostListView(ListView):
         context = super(UserPostListView, self).get_context_data(**kwargs)
 
         profile = Profile.objects.get(id=self.request.user.id)
-        #todo erase print
-        print("url: ",profile.avatar.url)
         context['avatar_url'] = profile.avatar.url
         context['post_list']=Post.objects.filter(author=self.request.user)
-        context['tag_list'] = Tag.objects.filter(posts__author=self.request.user)
-        context['half_tag_count'] = ceil(Tag.objects.all().count() / 2)
+        context['tag_list'] = Tag.objects.filter(posts__author=self.request.user).distinct()
+        context['half_tag_count'] = ceil(context['tag_list'].count() / 2)
         return context
 
     @method_decorator(login_required, name='dispatch')
@@ -115,7 +113,7 @@ class UserPostListView(ListView):
         return self.render_to_response(self.get_context_data(form=form))
 
     @method_decorator(login_required, name='dispatch')
-    def post(self, request):
+    def post(self, request):#post creation
 
         form = self.form_class(request.POST, request.FILES)
 
@@ -141,3 +139,24 @@ class UserPostListView(ListView):
 
         return redirect('index')
 
+
+class UserTagPostListView(DetailView):
+    model = Tag
+    template_name = 'accounts/account_posts.html'
+
+
+    def get_context_data(self, **kwargs):
+        context = super(UserTagPostListView, self).get_context_data(**kwargs)
+
+        profile = Profile.objects.get(id=self.request.user.id)
+        context['avatar_url'] = profile.avatar.url
+        posts = []
+        user_posts = Post.objects.filter(author=self.request.user)
+        for post in user_posts:
+            if post.tags.filter(name__exact=kwargs['object']).exists():
+                posts.append(post)
+
+        context['post_list']=posts
+        context['tag_list'] = Tag.objects.filter(posts__author=self.request.user).distinct()
+        context['half_tag_count'] = ceil(context['tag_list'].count() / 2)
+        return context
