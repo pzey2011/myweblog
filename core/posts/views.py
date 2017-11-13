@@ -81,8 +81,6 @@ class TagPostListView(DetailView):
         return context
     def get(self, request, *args, **kwargs):
         super(TagPostListView, self).get(self, request, *args, **kwargs)
-        admin = User.objects.filter(is_superuser=True)
-
         if len(self.tag_posts)== 0:
             return HttpResponse('You don\'t have permission to access the posts of this tag', status=403)
 

@@ -58,6 +58,7 @@ class PostCreateForm(forms.Form):
     title=forms.CharField(widget=forms.TextInput)
     description = forms.CharField(widget=forms.TextInput)
     text = forms.CharField(widget=forms.Textarea(attrs={'row':"2" , 'class':'materialize-textarea'}))
+    image= forms.FileField(label='Post Image')
     privacy = forms.ChoiceField(
         widget=forms.Select(attrs={'class':'form-control'}),
         choices=PRIVACY_CHOICES,

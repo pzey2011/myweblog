@@ -14,7 +14,27 @@ from .models import Profile,get_group
 from .forms import LoginForm,RegisterForm,PostCreateForm
 from core.posts.models import Post, Tag, Comment
 
+def find_tags(text):
+    tags_positions = [i for i, letter in enumerate(text) if letter == '#']
+    tags = []
 
+    for tag_position in tags_positions:
+        tag = ''
+        istag = False
+        for i, c in enumerate(text):
+            if i == tag_position:
+                istag = True
+            elif istag and (text[i] != ' '):
+                tag += text[i]
+            elif (text[i] == ' ') and istag:
+                istag = False
+                tags.append(tag)
+                break
+            if i == (len(text) - 1) and istag:
+                tags.append(tag)
+
+    tags = list(set(tags))
+    return tags
 class UserRegisterView(CreateView):
     model = Profile
     template_name = 'accounts/register.html'
@@ -97,47 +117,26 @@ class UserPostListView(ListView):
     @method_decorator(login_required, name='dispatch')
     def post(self, request):
 
-        form = self.form_class(request.POST)
-        print('form_data: ',form.data)
+        form = self.form_class(request.POST, request.FILES)
+
         if form.is_valid():
 
             self.text = form.cleaned_data.get('text')
-
-            tags_pos = [i for i, letter in enumerate(self.text) if letter == '#']
-            tags=[]
-
-            for tag_pos in tags_pos:
-                tag=''
-                istag=False
-                for i,c in enumerate(self.text):
-                    if i==tag_pos:
-                        istag=True
-                    elif istag and (self.text[i]!=' '):
-                        tag += self.text[i]
-                        print('tag',tag)
-                    elif (self.text[i]==' ') and istag:
-                        istag=False
-                        tags.append(tag)
-                        break
-                    if i==(len(self.text)-1) and istag:
-                        tags.append(tag)
-
-            tags = list(set(tags))
-
             # get or create tags  re.search('(?<=^#)\w+',self.text)
             # add tags to cleaned data for post creation
             new_post=form.cleaned_data
             new_post['author']=User.objects.get(id=self.request.user.id)
-            new_post['tags']=[]
-            new_post.pop('tags')
-            # todo erase print
-            print('newpost_data: ',new_post)
 
             post = Post.objects.create(**new_post)
+
+            tags=find_tags(self.text)
+            post.tags=[]
             for tag in tags:
-                post.tags.get_or_create(name=tag)
-            # todo erase print
-            print('post: ', post)
+                #todo erase print
+                print('all tags: ',Tag.objects.all())
+                tag_object=Tag.objects.get_or_create(name=tag)[0]
+                print('all tags: ', Tag.objects.all())
+                post.tags.add(tag_object)
             post.save()
 
         return redirect('index')

@@ -41,7 +41,7 @@
                 <div class="indicator" style="right: -1px; left: 354px;"></div>
             </ul>
             <div id="UpdateStatus" class="tab-content col s12  grey lighten-4" style="display: block;">
-                <form action="/accounts/index/" method="post" >
+                <form action="/accounts/index/" method="post"  enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-sm-2">
@@ -79,6 +79,16 @@
                                 {% endfor %}
                                 </select>-->
                                 {{ form.privacy }}
+                                <div class="file-field input-field">
+                                    <div class="btn">
+                                        <span for="{{ form.image.id_for_label }}"><i class="fa fa-cloud-upload"></i> {{ form.image.label }}</span>
+                                        {{ form.image }}
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text">
+                                    </div>
+                                </div>
+
                                 <!--<a name="privacy" class="dropdown-toggle waves-effect waves-light btn" data-toggle="dropdown" href="#"><i class="fa fa-lock"></i> Private</a>
 
                                 <ul class="dropdown-menu" role="menu">
