@@ -54,7 +54,7 @@ class RegisterForm(forms.Form):
         return profile
 
 class PostCreateForm(forms.Form):
-    PRIVACY_CHOICES = (('Private','lock'), ('Public','globe'))
+    PRIVACY_CHOICES = (('private','lock'), ('public','globe'))
 
     title=forms.CharField(widget=forms.TextInput)
     description = forms.CharField(widget=forms.TextInput)
@@ -65,4 +65,6 @@ class PostCreateForm(forms.Form):
         choices=PRIVACY_CHOICES,
     )
     def clean(self):
+        #todo erase print
+        print('cleaned_data: ',self.cleaned_data)
         return self.cleaned_data

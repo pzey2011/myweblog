@@ -26,3 +26,6 @@ body {
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
+.dropdown-menu li a{
+    text-transform:capitalize;
+}

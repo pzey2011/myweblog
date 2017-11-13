@@ -85,6 +85,7 @@ class UserLoginView(ListView):
 # json_response=json.loads(response.text)
 # class UserPostCreateView(CreateView):
 #    model = Post
+#class UserProfileEitView(Ed)
 
 class UserPostListView(ListView):
     model = Post
@@ -114,11 +115,12 @@ class UserPostListView(ListView):
 
     @method_decorator(login_required, name='dispatch')
     def post(self, request):#post creation
-
+        #todo
+        print('post')
         form = self.form_class(request.POST, request.FILES)
 
         if form.is_valid():
-
+            print('post1')
             self.text = form.cleaned_data.get('text')
             # get or create tags  re.search('(?<=^#)\w+',self.text)
             # add tags to cleaned data for post creation
