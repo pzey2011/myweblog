@@ -16,64 +16,65 @@
 {% endblock %}
 {% block content %}
     <form method="post" action="/accounts/update/" enctype="multipart/form-data">
-    {% csrf_token %}
+        {% csrf_token %}
         <div class="form-container">
             <div class="row">
-              <div class="input-field col s12 center">
-                <p class="center login-form-text">Profile</p>
-              </div>
+                <div class="input-field col s12 center">
+                    <p class="center login-form-text">Profile</p>
+                </div>
             </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <label for="{{ form.username.id_for_label }}" data-error="wrong" data-success="right"></label>
-                        {{ form.username }}
+            <div class="row">
+                <div class="input-field col s12">
+                    <label for="{{ form.username.id_for_label }}" data-error="wrong" data-success="right"></label>
+                    {{ form.username }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <label for="{{ form.first_name.id_for_label }}" data-error="wrong" data-success="right"></label>
+                    {{ form.first_name }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <label for="{{ form.last_name.id_for_label }}" data-error="wrong" data-success="right"></label>
+                    {{ form.last_name }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <label for="{{ form.email.id_for_label }}" data-error="wrong" data-success="right"></label>
+                    {{ form.email }}
+                </div>
+            </div>
+            <div class="row">
+                {{ form.gender }}
+            </div>
+            <div class="row">
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span for="{{ form.avatar.id_for_label }}"><i
+                                class="fa fa-cloud-upload"></i> {{ form.avatar.label }}</span>
+                        {{ form.avatar }}
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" placeholder="Upload file">
                     </div>
                 </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <label for="{{ form.first_name.id_for_label }}" data-error="wrong" data-success="right"></label>
-                        {{ form.first_name }}
-                  </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <label for="{{ form.last_name.id_for_label }}" data-error="wrong" data-success="right"></label>
-                        {{ form.last_name }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <label for="{{ form.email.id_for_label }}" data-error="wrong" data-success="right"></label>
-                        {{ form.email }}
-                    </div>
-                </div>
-                <div class="row">
-                    {{ form.gender }}
-                </div>
-                <div class="row">
-                    <div class="file-field input-field">
-                        <div class="btn">
-                            <span for="{{ form.avatar.id_for_label }}"><i class="fa fa-cloud-upload"></i> {{ form.avatar.label }}</span>
-                            {{ form.avatar }}
-                        </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" placeholder = "Upload file">
-                        </div>
-                    </div>
-                </div>
+            </div>
 
 
             <br>
             <center>
                 <div class="row">
-                  <div class="input-field col s12">
-                      <button class="btn waves-effect waves-light col-sm-12" type="submit" >Update</button>
-                  </div>
+                    <div class="input-field col s12">
+                        <button class="btn waves-effect waves-light col-sm-12" type="submit">Update</button>
+                    </div>
                 </div>
             </center>
 
         </div>
     </form>
 
-  <p><a href="{% url 'index' %}">Return to home</a></p>
+    <p><a href="{% url 'index' %}">Return to home</a></p>
 {% endblock %}

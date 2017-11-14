@@ -1,5 +1,5 @@
 from django.views.generic.edit import UpdateView
-from django.shortcuts import render,redirect,render_to_response
+from django.shortcuts import render, redirect, render_to_response
 from django.http import HttpResponseRedirect
 from math import ceil
 from django.views.generic import ListView, CreateView, DetailView
@@ -11,9 +11,10 @@ from django.template import RequestContext
 from django.contrib.auth import login
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from .models import Profile,get_group
-from .forms import LoginForm,RegisterForm,PostCreateForm,UserProfileUpdateForm,CommentCreateForm
+from .models import Profile, get_group
+from .forms import LoginForm, RegisterForm, PostCreateForm, UserProfileUpdateForm, CommentCreateForm
 from core.posts.models import Post, Tag, Comment
+
 
 def find_tags(text):
     tags_positions = [i for i, letter in enumerate(text) if letter == '#']
@@ -36,6 +37,8 @@ def find_tags(text):
 
     tags = list(set(tags))
     return tags
+
+
 class UserRegisterView(CreateView):
     model = Profile
     template_name = 'accounts/register.html'
@@ -51,12 +54,11 @@ class UserRegisterView(CreateView):
 
         form = self.form_class(request.POST)
         if form.is_valid():
-            user=form.save(form.cleaned_data)
-            login(request,user)
+            user = form.save(form.cleaned_data)
+            login(request, user)
             return redirect('index')
         else:
             return render(request, self.template_name, {'form': form})
-
 
 
 class UserLoginView(ListView):
@@ -106,7 +108,7 @@ class UserPostListView(ListView):
 
         profile = Profile.objects.get(id=self.request.user.id)
         context['avatar_url'] = profile.avatar.url
-        posts=Post.objects.filter(author=self.request.user)
+        posts = Post.objects.filter(author=self.request.user)
         paginator = Paginator(posts, 2)
         page = self.request.GET.get('page')
         try:
@@ -117,11 +119,11 @@ class UserPostListView(ListView):
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             posts = paginator.page(paginator.num_pages)
-        context['num_of_pages']=range(1,paginator.num_pages+1)
-        context['post_list']=posts
+        context['num_of_pages'] = range(1, paginator.num_pages + 1)
+        context['post_list'] = posts
         context['tag_list'] = Tag.objects.filter(posts__author=self.request.user).distinct()
         context['half_tag_count'] = ceil(context['tag_list'].count() / 2)
-        self.context=context
+        self.context = context
         return context
 
     @method_decorator(login_required, name='dispatch')
@@ -130,28 +132,28 @@ class UserPostListView(ListView):
         profile = Profile.objects.get(id=self.request.user.id)
         post_create_form = PostCreateForm()
         comment_create_form = CommentCreateForm()
-        self.context['post_create_form']=post_create_form
-        self.context['comment_create_form']=comment_create_form
+        self.context['post_create_form'] = post_create_form
+        self.context['comment_create_form'] = comment_create_form
 
-        return render(request, 'accounts/account_index.html',self.context)
+        return render(request, 'accounts/account_index.html', self.context)
 
     @method_decorator(login_required, name='dispatch')
-    def post(self, request):#post creation
+    def post(self, request):  # post creation
         post_create_form = PostCreateForm(request.POST, request.FILES)
         comment_create_form = CommentCreateForm(request.POST)
 
         if post_create_form.is_valid():
 
             self.text = post_create_form.cleaned_data.get('text')
-            new_post=post_create_form.cleaned_data
-            new_post['author']=User.objects.get(id=self.request.user.id)
+            new_post = post_create_form.cleaned_data
+            new_post['author'] = User.objects.get(id=self.request.user.id)
 
             post = Post.objects.create(**new_post)
 
-            tags=find_tags(self.text)
-            post.tags=[]
+            tags = find_tags(self.text)
+            post.tags = []
             for tag in tags:
-                tag_object=Tag.objects.get_or_create(name=tag)[0]
+                tag_object = Tag.objects.get_or_create(name=tag)[0]
                 post.tags.add(tag_object)
             post.save()
 
@@ -165,7 +167,7 @@ class UserPostListView(ListView):
 
             comment = Comment.objects.create(**new_comment)
 
-            comment.post=Post.objects.get(id=post_id)
+            comment.post = Post.objects.get(id=post_id)
 
             comment.save()
         return redirect('index')
@@ -199,10 +201,10 @@ class UserTagPostListView(DetailView):
             posts = paginator.page(paginator.num_pages)
         context['num_of_pages'] = range(1, paginator.num_pages + 1)
 
-        context['post_list']=posts
+        context['post_list'] = posts
         context['tag_list'] = Tag.objects.filter(posts__author=self.request.user).distinct()
         context['half_tag_count'] = ceil(context['tag_list'].count() / 2)
-        self.context=context
+        self.context = context
         return context
 
     @method_decorator(login_required, name='dispatch')

@@ -17,7 +17,8 @@ class Account(User):
 
     gender = models.CharField(max_length=10, choices=GENDER, verbose_name=_(u'Gender'),
                               help_text=_("Choices: ['male', 'female']"), blank=True, null=True)
-    avatar = models.ImageField(upload_to='avatars', verbose_name=_(u"Avatar"),default=os.path.join(settings.STATIC_ROOT,'user-default.jpg'), blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatars', verbose_name=_(u"Avatar"),
+                               default=os.path.join(settings.STATIC_ROOT, 'user-default.jpg'), blank=True, null=True)
 
     class Meta:
         abstract = True

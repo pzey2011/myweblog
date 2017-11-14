@@ -1,93 +1,98 @@
 {% extends 'accounts/form_layout.html' %}
 {% block header %}
     <li class="nav-item active">
-      <a class="nav-link" href="/">Home
-      </a>
+        <a class="nav-link" href="/">Home
+        </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/accounts/login/">Login</a>
+        <a class="nav-link" href="/accounts/login/">Login</a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="/accounts/register/">Register<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/accounts/register/">Register<span class="sr-only">(current)</span></a>
     </li>
 {% endblock %}
 {% block content %}
 
 
 
-      <form class="col s12" action="/accounts/register/" method="POST">{% csrf_token %}
+    <form class="col s12" action="/accounts/register/" method="POST">{% csrf_token %}
         <div class="form-container">
             <div class="row">
-              <div class="input-field col s12 center">
-                <p class="center login-form-text">Sign Up</p>
-              </div>
+                <div class="input-field col s12 center">
+                    <p class="center login-form-text">Sign Up</p>
+                </div>
             </div>
 
 
             {% if form.non_field_errors %}
                 <ul class='form-errors'>
                     {% for error in form.non_field_errors %}
-                        <li class=" left-alert" ><blockquote class="alert-danger">{{ error }}</blockquote></li>
+                        <li class=" left-alert">
+                            <blockquote class="alert-danger">{{ error }}</blockquote>
+                        </li>
                     {% endfor %}
                 </ul>
             {% endif %}
             {% for field in form %}
                 {% if field.errors %}
-                  <li>
-                    {{ field.label }}
-                    <ul class="form-errors">
-                      {% for error in field.errors %}
-                        <li class=" left-alert" ><blockquote class="alert-danger">{{ error }}</blockquote></li>
-                      {% endfor %}
-                    </ul>
-                  </li>
+                    <li>
+                        {{ field.label }}
+                        <ul class="form-errors">
+                            {% for error in field.errors %}
+                                <li class=" left-alert">
+                                    <blockquote class="alert-danger">{{ error }}</blockquote>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
                 {% endif %}
             {% endfor %}
-                <div class="row">
-                  <div class="input-field col s12">
+            <div class="row">
+                <div class="input-field col s12">
 
-                        <label for="{{ form.username.id_for_label }}" data-error="wrong" data-success="right"></label>
+                    <label for="{{ form.username.id_for_label }}" data-error="wrong" data-success="right"></label>
 
                     {{ form.username }}
-                  </div>
                 </div>
-                <div class="row">
-                  <div class="input-field col s12">
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
                     <label for="{{ form.password.id_for_label }}" data-error="wrong" data-success="right"></label>
                     {{ form.password }}
-                  </div>
                 </div>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <label for="{{ form.password_confirm.id_for_label }}" data-error="wrong" data-success="right"></label>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <label for="{{ form.password_confirm.id_for_label }}" data-error="wrong"
+                           data-success="right"></label>
                     {{ form.password_confirm }}
-                  </div>
                 </div>
-                <div class="row">
-                  <div class="input-field col s12">
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
                     <label for="{{ form.email.id_for_label }}" data-error="wrong" data-success="right"></label>
                     {{ form.email }}
-                  </div>
                 </div>
+            </div>
 
 
             <div class="row">
-              <div class="input-field col s12 m12 l12  login-text">
-                  <input type="checkbox" id="remember-me">
-                  <label for="remember-me">Remember me</label>
-              </div>
+                <div class="input-field col s12 m12 l12  login-text">
+                    <input type="checkbox" id="remember-me">
+                    <label for="remember-me">Remember me</label>
+                </div>
             </div>
             <br>
             <center>
-            <div class="row">
-              <div class="input-field col s12">
-                <button class="btn waves-effect waves-light col-sm-12" type="submit">Submit</button>
-              </div>
-            </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button class="btn waves-effect waves-light col-sm-12" type="submit">Submit</button>
+                    </div>
+                </div>
             </center>
 
         </div>
-      </form>
+    </form>
 
 
 {% endblock %}

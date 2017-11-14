@@ -3,7 +3,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 
 
-
 class Tag(models.Model):
     name = models.CharField(max_length=50, verbose_name=_('Name'))
 
@@ -14,6 +13,7 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
+
 class Post(models.Model):
     PRIVACY = (('public', _('Public')), ('private', _('Private')))
 
@@ -21,13 +21,12 @@ class Post(models.Model):
     description = models.TextField(verbose_name=_("Description"))
     author = models.ForeignKey(User, related_name='posts', verbose_name=_("Author"), blank=True, null=True)
     text = models.TextField(verbose_name=_("Text"))
-    image =models.ImageField(upload_to='posts', verbose_name=_(u"Post Image"), blank=True, null=True)
+    image = models.ImageField(upload_to='posts', verbose_name=_(u"Post Image"), blank=True, null=True)
     tags = models.ManyToManyField(Tag, related_name='posts', verbose_name=_("Tag"), blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated at"))
-    privacy= models.CharField(max_length=10, choices=PRIVACY, verbose_name=_(u'Privacy'),
-                              help_text=_("Choices: ['public', 'private']"), blank=True, null=True)
-
+    privacy = models.CharField(max_length=10, choices=PRIVACY, verbose_name=_(u'Privacy'),
+                               help_text=_("Choices: ['public', 'private']"), blank=True, null=True)
 
     class Meta:
         verbose_name = _("Post")
@@ -35,7 +34,6 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-
 
 
 class Comment(models.Model):

@@ -34,14 +34,15 @@
         <div class="col s12">
             <ul class="tabs tab-profile z-depth-1 light-blue" style="width: 100%;">
                 <li class="tab col s9" style="width: 100%;"><a class="white-text waves-effect waves-light active"
-                                                               href="#UpdateStatus"><i class="mdi-editor-border-color"></i>
+                                                               href="#UpdateStatus"><i
+                        class="mdi-editor-border-color"></i>
                     Update Status</a>
 
                 </li>
                 <div class="indicator" style="right: -1px; left: 354px;"></div>
             </ul>
             <div id="UpdateStatus" class="tab-content col s12  grey lighten-4" style="display: block;">
-                <form action="/accounts/index/" method="post"  enctype="multipart/form-data">
+                <form action="/accounts/index/" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-sm-2">
@@ -49,15 +50,16 @@
                         </div>
                         <div class="input-field col-sm-10">
                             {{ post_create_form.title }}
-                            <label for={{ post_create_form.title.id_for_label }} >Subject</label>
+                            <label for={{ post_create_form.title.id_for_label }}>Subject</label>
                         </div>
                         <div class="input-field col-sm-10">
                             {{ post_create_form.description }}
-                            <label for={{ post_create_form.description.id_for_label }} >An introduction sentence for your text...</label>
+                            <label for={{ post_create_form.description.id_for_label }}>An introduction sentence for your
+                                text...</label>
                         </div>
                         <div class="input-field col-sm-10">
                             {{ post_create_form.text }}
-                            <label for={{ post_create_form.text.id_for_label }} >Text...</label>
+                            <label for={{ post_create_form.text.id_for_label }}>Text...</label>
                         </div>
                     </div>
                     <div class="row">
@@ -70,26 +72,29 @@
                         <div class="col s12 m6 right-align">
                             <!-- Dropdown Trigger -->
 
-                                <div class="file-field input-field">
-                                    <div class="btn">
-                                        <span for="{{ post_create_form.image.id_for_label }}"><i class="fa fa-cloud-upload"></i> {{ post_create_form.image.label }}</span>
-                                        {{ post_create_form.image }}
-                                    </div>
-                                    <div class="file-path-wrapper">
-                                        <input class="file-path validate" type="text">
-                                    </div>
+                            <div class="file-field input-field">
+                                <div class="btn">
+                                    <span for="{{ post_create_form.image.id_for_label }}"><i
+                                            class="fa fa-cloud-upload"></i> {{ post_create_form.image.label }}</span>
+                                    {{ post_create_form.image }}
                                 </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text">
+                                </div>
+                            </div>
 
-                                <input type="hidden" name="privacy" value="private">
-                                <a name="privacy" class="dropdown-toggle waves-effect waves-light btn" data-toggle="dropdown" href="#"><i class="fa fa-lock"></i> Private</a>
+                            <input type="hidden" name="privacy" value="private">
+                            <a name="privacy" class="dropdown-toggle waves-effect waves-light btn"
+                               data-toggle="dropdown" href="#"><i class="fa fa-lock"></i> Private</a>
 
-                                <ul class="dropdown-menu" role="menu">
-                                    {% for choice in post_create_form.privacy.field.choices %}
-                                        <li><a href="#!"><i class="fa fa-{{ choice.1 }}"></i> {{ choice.0}}</a></li>
-                                    {% endfor %}
-                                </ul>
+                            <ul class="dropdown-menu" role="menu">
+                                {% for choice in post_create_form.privacy.field.choices %}
+                                    <li><a href="#!"><i class="fa fa-{{ choice.1 }}"></i> {{ choice.0 }}</a></li>
+                                {% endfor %}
+                            </ul>
 
-                            <button class="waves-effect waves-light btn" type="submit"><i class="fa fa-send left"></i>Post</button>
+                            <button class="waves-effect waves-light btn" type="submit"><i class="fa fa-send left"></i>Post
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -109,7 +114,7 @@
                             </div>
                             <div class="col-sm-10">
                                 <p class="grey-text text-darken-4 margin">{{ post.author }}</p>
-                                <span class="grey-text text-darken-1 ultra-small">Shared {{ post.privacy }}ly -  {{ post.created_at }}</span>
+                                <span class="grey-text text-darken-1 ultra-small">Shared {{ post.privacy }}ly - {{ post.created_at }}</span>
                             </div>
                             <div class="col-sm-1 right-align">
                                 <i class="mdi-navigation-expand-more"></i>
@@ -122,7 +127,8 @@
                         </div>
                     </div>
                     <div class="card-image profile-medium">
-                        <img src={{ post.image.url }} alt="sample" class="responsive-img profile-post-image profile-medium">
+                        <img src={{ post.image.url }} alt="sample"
+                             class="responsive-img profile-post-image profile-medium">
                         <span class="card-title">{{ post.title }}</span>
                     </div>
                     <div class="card-content">
@@ -131,13 +137,15 @@
                     <div class="card-action">
                         <div class="col-sm-4 card-action-share">
                             <p><i class="fa fa-tags"></i>
-                            Tags:
-                            {% for tag in post.tags.all %}
-                                 <div class="chip">
-                                    <a href="/accounts/tags/{{ tag.id }}/posts/"><span class="label label-primary ">{{ tag.name }}</span></a>
-                                 </div>
-                            {% endfor %}
-                            <i class="fa fa-comment"></i> <a href="#" type="button" data-toggle="collapse" data-target="#comments">{{ post.comments.all.count }}</a>
+                                Tags:
+                                {% for tag in post.tags.all %}
+                                    <div class="chip">
+                                        <a href="/accounts/tags/{{ tag.id }}/posts/"><span
+                                                class="label label-primary ">{{ tag.name }}</span></a>
+                                    </div>
+                                {% endfor %}
+                            <i class="fa fa-comment"></i> <a href="#" type="button" data-toggle="collapse"
+                                                             data-target="#comments">{{ post.comments.all.count }}</a>
                             </p>
                         </div>
 
@@ -156,10 +164,11 @@
                     </div>
                     <!-- list of comments collapsable-->
                     <div id="comments" class="collapse">
-                    `   {% for comment in post.comments.all %}
+                        `   {% for comment in post.comments.all %}
                         <div class="card">
                             <div class="card-content">
-                                <span class="card-title">Commented by {{ comment.author }} - <i class="fa fa-calendar"></i>{{ comment.created_at }} </span>
+                                <span class="card-title">Commented by {{ comment.author }} - <i
+                                        class="fa fa-calendar"></i>{{ comment.created_at }} </span>
                                 {{ comment.text }}
                             </div>
                             <!--<div class="card-action">
@@ -167,47 +176,47 @@
                                 <a href="#">This is a link</a>
                             </div>-->
                         </div>
-                        {% endfor %}
+                    {% endfor %}
                     </div>
                 </div>
 
             {% empty %}
 
-                    <p>Sorry, no posts yet</p>
+                <p>Sorry, no posts yet</p>
             {% endfor %}
 
         </div>
     </div>
     <ul class="pagination">
 
-            {% if post_list.has_previous %}
-                <li class="waves-effect">
-                    <a href="?page={{ post_list.previous_page_number }}"><i class="fa fa-chevron-left"></i></a>
-                </li>
+        {% if post_list.has_previous %}
+            <li class="waves-effect">
+                <a href="?page={{ post_list.previous_page_number }}"><i class="fa fa-chevron-left"></i></a>
+            </li>
+        {% else %}
+            <li class="waves-effect">
+                <a><i class="fa fa-chevron-left"></i></a>
+            </li>
+        {% endif %}
+
+
+        {% for num in num_of_pages %}
+            {% if num == post_list.number %}
+                <li class="active"><a>{{ num }}</a></li>
             {% else %}
-                <li class="waves-effect">
-                    <a><i class="fa fa-chevron-left"></i></a>
-                </li>
+                <li class="waves-effect"><a href="?page={{ num }}">{{ num }}</a></li>
             {% endif %}
+        {% endfor %}
 
-
-            {% for num in num_of_pages %}
-                {% if num == post_list.number %}
-                    <li class="active"><a>{{ num }}</a></li>
-                {% else %}
-                    <li class="waves-effect"><a href="?page={{ num }}">{{ num  }}</a></li>
-                {% endif %}
-            {% endfor %}
-
-            {% if post_list.has_next %}
-                <li class="waves-effect">
-                    <a href="?page={{ post_list.next_page_number }}"><i class="fa fa-chevron-right"></i></a>
-                </li>
-            {% else %}
-                <li class="waves-effect">
-                    <a><i class="fa fa-chevron-right"></i></a>
-                </li>
-            {% endif %}
+        {% if post_list.has_next %}
+            <li class="waves-effect">
+                <a href="?page={{ post_list.next_page_number }}"><i class="fa fa-chevron-right"></i></a>
+            </li>
+        {% else %}
+            <li class="waves-effect">
+                <a><i class="fa fa-chevron-right"></i></a>
+            </li>
+        {% endif %}
 
     </ul>
 {% endblock %}

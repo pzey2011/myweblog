@@ -1,99 +1,99 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" >
-      <!-- my CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <!-- my CSS -->
     <link href="{% static "css/style.css" %}" rel="stylesheet"/>
-     <!-- Font Awesome CSS -->
+    <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  </head>
-  <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container">
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
         <a class="navbar-brand" href="#">My Weblog</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto">
 
-              {% block header %}
+                {% block header %}
 
-              {% endblock %}
-          </ul>
+                {% endblock %}
+            </ul>
         </div>
-      </div>
-    </nav>
-  <div class="container">
+    </div>
+</nav>
+<div class="container">
     <div class="row">
 
-    {% block content %}{% endblock %}
+        {% block content %}{% endblock %}
         <!-- Sidebar Widgets Column -->
         <div class="col-md-4">
 
-          <!-- Search Widget
+            <!-- Search Widget
+              <div class="card white">
+                  <div class="card-content black-text"><span class="card-title">Search</span>
+                      <div class="card-action">
+                          <div class="row">
+                              <input type="search" class="search" placeholder="Search for..." />
+                              <a href="#" type="search" class="btn waves-effect waves-light">Go</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>-->
+
+
+            <!-- Categories Widget -->
             <div class="card white">
-                <div class="card-content black-text"><span class="card-title">Search</span>
+                <div class="card-content black-text">
+                    <span class="card-title">Tags</span>
                     <div class="card-action">
                         <div class="row">
-                            <input type="search" class="search" placeholder="Search for..." />
-                            <a href="#" type="search" class="btn waves-effect waves-light">Go</a>
+                            <div class="col-lg-6">
+
+
+                                {% block tag_contents1 %}{% endblock %}
+
+
+                            </div>
+                            <div class="col-lg-6">
+
+
+                                {% block tag_contents2 %}{% endblock %}
+
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>-->
-
-
-          <!-- Categories Widget -->
-          <div class="card white">
-            <div class="card-content black-text">
-                <span class="card-title">Tags</span>
-                <div class="card-action">
-                  <div class="row">
-                    <div class="col-lg-6">
-
-
-                            {% block tag_contents1 %}{% endblock %}
-
-
-
-                    </div>
-                    <div class="col-lg-6">
-
-
-                        {% block tag_contents2 %}{% endblock %}
-
-
-                    </div>
-                  </div>
-                </div>
             </div>
-          </div>
 
-          {% block join %}{% endblock %}
+            {% block join %}{% endblock %}
 
         </div>
 
     </div>
 
-  </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" ></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-  </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+</body>
 </html>

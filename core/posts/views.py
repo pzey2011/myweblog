@@ -1,14 +1,14 @@
 from math import ceil
 from itertools import chain
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.views.generic import ListView,CreateView,DetailView
+from django.views.generic import ListView, CreateView, DetailView
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 
 from .forms import CommentCreateForm
-from .models import Post,Tag,Comment
+from .models import Post, Tag, Comment
 
 
 def get_tag_posts(kwargs):
@@ -21,6 +21,7 @@ def get_tag_posts(kwargs):
 
     return posts
 
+
 class PostListView(ListView):
     model = Post
     template_name = 'posts/index.html'
@@ -32,8 +33,7 @@ class PostListView(ListView):
 
         result_posts = []
         other_public_posts = Post.objects.filter(~Q(author=admin) & Q(privacy='public'))
-        result_posts=list(chain(admin_posts,other_public_posts))
-
+        result_posts = list(chain(admin_posts, other_public_posts))
 
         paginator = Paginator(result_posts, 4)
         page = self.request.GET.get('page')
@@ -47,16 +47,17 @@ class PostListView(ListView):
             posts = paginator.page(paginator.num_pages)
         context['num_of_pages'] = range(1, paginator.num_pages + 1)
 
-        context['post_list']=posts
-        context['user']=self.request.user
-        tags=[]
+        context['post_list'] = posts
+        context['user'] = self.request.user
+        tags = []
         for post in result_posts:
-            tags.extend(list (post.tags.all()))
-        tags=list(set(tags))#remove duplicate tags from sidebar
+            tags.extend(list(post.tags.all()))
+        tags = list(set(tags))  # remove duplicate tags from sidebar
 
-        context['tag_list']=tags
-        context['half_tag_count'] = ceil(len(tags)/2)
+        context['tag_list'] = tags
+        context['half_tag_count'] = ceil(len(tags) / 2)
         return context
+
 
 class PostDetailView(DetailView):
     model = Post
@@ -65,23 +66,22 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
         context['user'] = self.request.user
-        self.post=context['post']
+        self.post = context['post']
         admin = User.objects.filter(is_superuser=True)
         admin_posts = Post.objects.filter(author=admin)
 
         other_public_posts = Post.objects.filter(~Q(author=admin) & Q(privacy='public'))
-        result_posts=list(chain(admin_posts,other_public_posts))
+        result_posts = list(chain(admin_posts, other_public_posts))
 
         tags = []
         for post in result_posts:
             tags.extend(list(post.tags.all()))
 
-        tags = list(set(tags))#remove duplicate tags from sidebar
+        tags = list(set(tags))  # remove duplicate tags from sidebar
 
         context['tag_list'] = tags
-        context['half_tag_count'] = ceil(len(tags)/2)
-        self.context=context
-
+        context['half_tag_count'] = ceil(len(tags) / 2)
+        self.context = context
 
     def get(self, request, *args, **kwargs):
         super(PostDetailView, self).get(self, request, *args, **kwargs)
@@ -109,6 +109,7 @@ class PostDetailView(DetailView):
             comment.save()
         return redirect('home')
 
+
 class TagPostListView(DetailView):
     model = Tag
     template_name = 'posts/index.html'
@@ -116,10 +117,10 @@ class TagPostListView(DetailView):
     def get(self, request, *args, **kwargs):
         super(TagPostListView, self).get(self, request, *args, **kwargs)
 
-        if len(self.tag_posts)== 0:
+        if len(self.tag_posts) == 0:
             return HttpResponse('You don\'t have permission to access the posts of this tag', status=403)
 
-        return render(request, self.template_name ,self.context)
+        return render(request, self.template_name, self.context)
 
     def get_context_data(self, **kwargs):
         context = super(TagPostListView, self).get_context_data(**kwargs)
@@ -150,7 +151,7 @@ class TagPostListView(DetailView):
 
         context['num_of_pages'] = range(1, paginator.num_pages + 1)
 
-        context['post_list']=posts
+        context['post_list'] = posts
 
         tags = []
         for post in self.tag_posts:
@@ -160,5 +161,5 @@ class TagPostListView(DetailView):
 
         context['tag_list'] = tags
         context['half_tag_count'] = ceil(len(tags) / 2)
-        self.context=context
+        self.context = context
         return context
