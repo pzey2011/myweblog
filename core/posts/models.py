@@ -28,6 +28,7 @@ class Post(models.Model):
     privacy= models.CharField(max_length=10, choices=PRIVACY, verbose_name=_(u'Privacy'),
                               help_text=_("Choices: ['public', 'private']"), blank=True, null=True)
 
+
     class Meta:
         verbose_name = _("Post")
         verbose_name_plural = _("Posts")
