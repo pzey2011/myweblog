@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate
 from .models import Profile
-from core.posts.models import Post, Comment, Tag
+
 
 
 class LoginForm(forms.Form):

@@ -2,7 +2,7 @@ from django.conf.urls import url
 from core.posts.views import PostListView,PostDetailView,TagPostListView
 
 urlpatterns = [
-    url(r'^$', PostListView.as_view()),
+    url(r'^$', PostListView.as_view(),name='home'),
     url(r'^posts/(?P<pk>\d+)/$', PostDetailView.as_view(), name='post-detail'),
     url(r'^tags/(?P<pk>\d+)/posts/$', TagPostListView.as_view(), name='tag-posts')
    # url(r'^posts/list/$', PostListView.as_view()),

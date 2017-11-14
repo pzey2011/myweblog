@@ -1,12 +1,13 @@
 from math import ceil
 from itertools import chain
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.views.generic import ListView,CreateView,DetailView
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 
+from .forms import CommentCreateForm
 from .models import Post,Tag,Comment
 
 
@@ -79,12 +80,15 @@ class PostDetailView(DetailView):
 
         context['tag_list'] = tags
         context['half_tag_count'] = ceil(len(tags)/2)
-        return context
+        self.context=context
+
 
     def get(self, request, *args, **kwargs):
         super(PostDetailView, self).get(self, request, *args, **kwargs)
         admin = User.objects.filter(is_superuser=True)
         admin_posts = Post.objects.filter(author=admin)
+        comment_create_form = CommentCreateForm()
+        self.context['comment_create_form'] = comment_create_form
 
         other_public_posts = Post.objects.filter(~Q(author=admin) & Q(privacy='public'))
         result_posts = list(chain(admin_posts, other_public_posts))
@@ -92,7 +96,18 @@ class PostDetailView(DetailView):
         if self.post not in result_posts:
             return HttpResponse('You don\'t have permission to access this post', status=403)
 
-        return render(request, self.template_name, self.get_context_data())
+        return render(request, self.template_name, self.context)
+
+    def post(self, request):
+        comment_create_form = CommentCreateForm(request.POST)
+        if comment_create_form.is_valid():
+            post_id = comment_create_form.cleaned_data.get('post_id')
+            new_comment = comment_create_form.cleaned_data
+            new_comment['author'] = User.objects.get(id=self.request.user.id)
+            comment = Comment.objects.create(**new_comment)
+            comment.post = Post.objects.get(id=post_id)
+            comment.save()
+        return redirect('home')
 
 class TagPostListView(DetailView):
     model = Tag

@@ -95,20 +95,30 @@
 
         <!-- Comments Form -->
         <div class="card">
-          <div class="card-content">
-            <span class="card-title">Leave a comment:</span>
-              <form class="container">
-                <div class = "row">
-                    <textarea class="materialize-textarea">
-                    </textarea>
-                    <a href="#" class="btn waves-effect waves-light" type="submit" name="action">
-                      Submit
-                    </a>
-
-                </div>
-              </form>
-          </div>
+            <div class="card-content">
+                <span class="card-title">Leave a comment:</span>
+                <form class="container" action="/accounts/index/" method="post">{% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{ post.id }}">
+                    <label for={{ comment_create_form.text.id_for_label }} class="">Comments</label>
+                    {{ comment_create_form.text }}
+                    <button class="btn waves-effect waves-light" type="submit">Submit
+                        <i class="fa fa-send right"></i>
+                    </button>
+                </form>
+            </div>
         </div>
+        {% for comment in post.comments.all %}
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">Commented by {{ comment.author }} - <i class="fa fa-calendar"></i>{{ comment.created_at }} </span>
+                {{ comment.text }}
+            </div>
+            <!--<div class="card-action">
+                <a href="#">This is a link</a>
+                <a href="#">This is a link</a>
+            </div>-->
+        </div>
+        {% endfor %}
     </div>
 
 {% endblock %}

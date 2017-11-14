@@ -107,7 +107,7 @@ class UserPostListView(ListView):
         profile = Profile.objects.get(id=self.request.user.id)
         context['avatar_url'] = profile.avatar.url
         posts=Post.objects.filter(author=self.request.user)
-        paginator = Paginator(posts, 4)
+        paginator = Paginator(posts, 2)
         page = self.request.GET.get('page')
         try:
             posts = paginator.page(page)
@@ -160,7 +160,6 @@ class UserPostListView(ListView):
             post_id = comment_create_form.cleaned_data.get('post_id')
 
             new_comment = comment_create_form.cleaned_data
-
 
             new_comment['author'] = User.objects.get(id=self.request.user.id)
 
