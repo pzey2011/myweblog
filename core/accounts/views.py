@@ -1,17 +1,17 @@
-
-from django.shortcuts import render,redirect
+from django.views.generic.edit import UpdateView
+from django.shortcuts import render,redirect,render_to_response
+from django.http import HttpResponseRedirect
 from math import ceil
 from django.views.generic import ListView, CreateView, DetailView
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-
+from django.views.decorators.csrf import csrf_protect
+from django.template import RequestContext
 from django.contrib.auth import login
 
-
-
 from .models import Profile,get_group
-from .forms import LoginForm,RegisterForm,PostCreateForm
+from .forms import LoginForm,RegisterForm,PostCreateForm,UserProfileUpdateForm
 from core.posts.models import Post, Tag, Comment
 
 def find_tags(text):
@@ -80,12 +80,21 @@ class UserLoginView(ListView):
             return render(request, self.template_name, {'form': form})
 
 
+class UserProfileUpdateView(UpdateView):
+    form_class = UserProfileUpdateForm
+    model = Profile
+    template_name_suffix = '_update'
+    success_url = '/accounts/index/'
 
+    def get_object(self):
+        return Profile.objects.get(id=self.request.user.id)
 
-# json_response=json.loads(response.text)
-# class UserPostCreateView(CreateView):
-#    model = Post
-#class UserProfileEitView(Ed)
+    def form_valid(self, form):
+        # save cleaned post data
+        clean = form.cleaned_data
+        self.object = form.save(clean)
+        return HttpResponseRedirect('/accounts/index/')
+
 
 class UserPostListView(ListView):
     model = Post
@@ -132,10 +141,7 @@ class UserPostListView(ListView):
             tags=find_tags(self.text)
             post.tags=[]
             for tag in tags:
-                #todo erase print
-                print('all tags: ',Tag.objects.all())
                 tag_object=Tag.objects.get_or_create(name=tag)[0]
-                print('all tags: ', Tag.objects.all())
                 post.tags.add(tag_object)
             post.save()
 
@@ -144,8 +150,7 @@ class UserPostListView(ListView):
 
 class UserTagPostListView(DetailView):
     model = Tag
-    template_name = 'accounts/account_posts.html'
-
+    template_name = 'accounts/account_tag_posts.html'
 
     def get_context_data(self, **kwargs):
         context = super(UserTagPostListView, self).get_context_data(**kwargs)
@@ -161,4 +166,10 @@ class UserTagPostListView(DetailView):
         context['post_list']=posts
         context['tag_list'] = Tag.objects.filter(posts__author=self.request.user).distinct()
         context['half_tag_count'] = ceil(context['tag_list'].count() / 2)
+        self.context=context
         return context
+
+    @method_decorator(login_required, name='dispatch')
+    def get(self, request, *args, **kwargs):
+        super(UserTagPostListView, self).get(self, request, *args, **kwargs)
+        return self.render_to_response(self.context)

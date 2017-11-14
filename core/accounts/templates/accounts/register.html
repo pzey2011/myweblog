@@ -1,7 +1,15 @@
 {% extends 'accounts/form_layout.html' %}
+{% block header %}
+    <li class="nav-item">
+      <a class="nav-link" href="/accounts/login/">Login</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/accounts/register/">Register</a>
+    </li>
+{% endblock %}
 {% block content %}
 
-    <div class="container login-container white z-depth-2">
+
 
       <form class="col s12" action="/accounts/register/" method="POST">{% csrf_token %}
         <div class="form-container">
@@ -10,7 +18,7 @@
                 <p class="center login-form-text">Sign Up</p>
               </div>
             </div>
-            <ul class="errorlist">
+
 
             {% if form.non_field_errors %}
                 <ul class='form-errors'>
@@ -77,5 +85,5 @@
         </div>
       </form>
 
-    </div>
+
 {% endblock %}

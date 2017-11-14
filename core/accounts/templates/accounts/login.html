@@ -1,7 +1,15 @@
 {% extends 'accounts/form_layout.html' %}
+{% block header %}
+    <li class="nav-item">
+      <a class="nav-link" href="/accounts/login/">Login</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/accounts/register/">Register</a>
+    </li>
+{% endblock %}
 {% block content %}
 
-    <div class="container login-container white z-depth-2">
+
 
       <form class="col s12" action="/accounts/login/" method="POST">
           {% csrf_token %}
@@ -59,5 +67,4 @@
         </div>
       </form>
 
-    </div>
 {% endblock %}

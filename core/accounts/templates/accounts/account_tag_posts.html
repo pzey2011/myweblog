@@ -6,7 +6,7 @@
         {% if forloop.counter <= half_tag_count %}
             <li>
                 <div class="chip">
-                    <a href="/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
+                    <a href="/accounts/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
                 </div>
             </li>
         {% endif %}
@@ -20,7 +20,7 @@
         {% if forloop.counter > half_tag_count %}
             <li>
                 <div class="chip">
-                    <a href="/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
+                    <a href="/accounts/tags/{{ tag.id }}/posts/">{{ tag.name }}</a>
                 </div>
             </li>
         {% endif %}
