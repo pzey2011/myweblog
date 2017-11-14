@@ -132,17 +132,16 @@ class UserPostListView(ListView):
         comment_create_form = CommentCreateForm()
         self.context['post_create_form']=post_create_form
         self.context['comment_create_form']=comment_create_form
-        # todo erase print
-        print("context: ",self.context )
+
         return render(request, 'accounts/account_index.html',self.context)
 
     @method_decorator(login_required, name='dispatch')
     def post(self, request):#post creation
         post_create_form = PostCreateForm(request.POST, request.FILES)
         comment_create_form = CommentCreateForm(request.POST)
-        print('(post) comment create form: ',comment_create_form)
+
         if post_create_form.is_valid():
-            print('post create')
+
             self.text = post_create_form.cleaned_data.get('text')
             new_post=post_create_form.cleaned_data
             new_post['author']=User.objects.get(id=self.request.user.id)
@@ -157,25 +156,18 @@ class UserPostListView(ListView):
             post.save()
 
         elif comment_create_form.is_valid():
-            #todo erase print
-            print('comment create cleaned data:',comment_create_form.cleaned_data)
+
             post_id = comment_create_form.cleaned_data.get('post_id')
-            # todo erase print
-            print('post_id: ',post_id)
 
             new_comment = comment_create_form.cleaned_data
-            # todo erase print
-            print('create comment form data: ', comment_create_form.cleaned_data)
+
 
             new_comment['author'] = User.objects.get(id=self.request.user.id)
 
             comment = Comment.objects.create(**new_comment)
-            # todo erase print
-            print('comment: ', comment)
 
             comment.post=Post.objects.get(id=post_id)
-            # todo erase print
-            print('post of comment',comment.post)
+
             comment.save()
         return redirect('index')
 
@@ -189,11 +181,24 @@ class UserTagPostListView(DetailView):
 
         profile = Profile.objects.get(id=self.request.user.id)
         context['avatar_url'] = profile.avatar.url
+
         posts = []
         user_posts = Post.objects.filter(author=self.request.user)
         for post in user_posts:
             if post.tags.filter(name__exact=kwargs['object']).exists():
                 posts.append(post)
+
+        paginator = Paginator(posts, 4)
+        page = self.request.GET.get('page')
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            posts = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            posts = paginator.page(paginator.num_pages)
+        context['num_of_pages'] = range(1, paginator.num_pages + 1)
 
         context['post_list']=posts
         context['tag_list'] = Tag.objects.filter(posts__author=self.request.user).distinct()

@@ -2,12 +2,22 @@
 {% block header %}
     {% if user.is_authenticated %}
         <li class="nav-item">
-            <a class="nav-link" href="/accounts/logout/">Logout</a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" href="/accounts/index/">Page</a>
         </li>
+        <li class="nav-item active">
+            <a class="nav-link">Home<span class="sr-only">(current)</span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/accounts/update/">Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/accounts/logout/">Logout</a>
+        </li>
     {% else %}
+        <li class="nav-item active">
+            <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="/accounts/login/">Login</a>
         </li>
@@ -68,7 +78,40 @@
                 <h2>Sorry, no posts yet</h2>
             </div>
         {% endfor %}
+        <ul class="pagination">
+
+            {% if post_list.has_previous %}
+                <li class="waves-effect">
+                    <a href="?page={{ post_list.previous_page_number }}"><i class="fa fa-chevron-left"></i></a>
+                </li>
+            {% else %}
+                <li class="waves-effect">
+                    <a><i class="fa fa-chevron-left"></i></a>
+                </li>
+            {% endif %}
+
+
+            {% for num in num_of_pages %}
+                {% if num == post_list.number %}
+                    <li class="active"><a>{{ num }}</a></li>
+                {% else %}
+                    <li class="waves-effect"><a href="?page={{ num }}">{{ num  }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if post_list.has_next %}
+                <li class="waves-effect">
+                    <a href="?page={{ post_list.next_page_number }}"><i class="fa fa-chevron-right"></i></a>
+                </li>
+            {% else %}
+                <li class="waves-effect">
+                    <a><i class="fa fa-chevron-right"></i></a>
+                </li>
+            {% endif %}
+
+        </ul>
     </div>
+
 {% endblock %}
 
 {% block join %}

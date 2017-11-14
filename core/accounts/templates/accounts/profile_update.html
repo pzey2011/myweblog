@@ -1,10 +1,17 @@
 {% extends 'accounts/form_layout.html' %}
 {% block header %}
     <li class="nav-item">
-        <a class="nav-link" href="/accounts/logout/">Logout</a>
+        <a class="nav-link" href="/accounts/index/">Page</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/accounts/index/">Page</a>
+        <a class="nav-link" href="/">Home</a>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link" href="/accounts/update/">Profile<span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/accounts/logout/">Logout</a>
     </li>
 {% endblock %}
 {% block content %}

@@ -97,7 +97,7 @@ class UserProfileUpdateForm(forms.ModelForm):
         model = Profile
 
     def clean(self):
-        print('cleaned_data',self.cleaned_data)
+        return self.cleaned_data
 
 class CommentCreateForm(forms.Form):
     post_id=forms.IntegerField()
