@@ -137,7 +137,7 @@
                                     <a href="/accounts/tags/{{ tag.id }}/posts/"><span class="label label-primary ">{{ tag.name }}</span></a>
                                  </div>
                             {% endfor %}
-                            <i class="fa fa-comment"></i> <a href="#" type="button" data-toggle="collapse" data-target="#comments">0</a>
+                            <i class="fa fa-comment"></i> <a href="#" type="button" data-toggle="collapse" data-target="#comments">{{ post.comments.all.count }}</a>
                             </p>
                         </div>
 
@@ -178,7 +178,21 @@
 
         </div>
     </div>
+    <div class="pagination">
+        <span class="step-links">
+            {% if post_list.has_previous %}
+                <a href="?page={{ post_list.previous_page_number }}">previous</a>
+            {% endif %}
 
+            <span class="current">
+                Page {{ post_list.number }} of {{ post_list.paginator.num_pages }}.
+            </span>
+
+            {% if post_list.has_next %}
+                <a href="?page={{ post_list.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
 {% endblock %}
 
 

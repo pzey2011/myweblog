@@ -9,6 +9,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from django.template import RequestContext
 from django.contrib.auth import login
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Profile,get_group
 from .forms import LoginForm,RegisterForm,PostCreateForm,UserProfileUpdateForm,CommentCreateForm
@@ -100,13 +101,23 @@ class UserPostListView(ListView):
     model = Post
     template_name = 'accounts/account_index.html'
 
-
     def get_context_data(self, **kwargs):
         context = super(UserPostListView, self).get_context_data(**kwargs)
 
         profile = Profile.objects.get(id=self.request.user.id)
         context['avatar_url'] = profile.avatar.url
-        context['post_list']=Post.objects.filter(author=self.request.user)
+        posts=Post.objects.filter(author=self.request.user)
+        paginator = Paginator(posts, 4)
+        page = self.request.GET.get('page')
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            posts = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            posts = paginator.page(paginator.num_pages)
+        context['post_list']=posts
         context['tag_list'] = Tag.objects.filter(posts__author=self.request.user).distinct()
         context['half_tag_count'] = ceil(context['tag_list'].count() / 2)
         self.context=context
