@@ -117,6 +117,7 @@ class UserPostListView(ListView):
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             posts = paginator.page(paginator.num_pages)
+        context['num_of_pages']=range(1,paginator.num_pages+1)
         context['post_list']=posts
         context['tag_list'] = Tag.objects.filter(posts__author=self.request.user).distinct()
         context['half_tag_count'] = ceil(context['tag_list'].count() / 2)
